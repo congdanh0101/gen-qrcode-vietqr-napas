@@ -132,9 +132,9 @@ async function runGenerator() {
         .setAdditionalDataFieldTemplate(content)
         .build();
 
-    const qrSize = 700;
-    const padding = 100;
-    const headerHeight = 180; 
+    const qrSize = 500;
+    const padding = 40;
+    const headerHeight = 120; 
     const footerHeight = 120;
     
     const canvas = document.createElement('canvas');
@@ -150,7 +150,7 @@ async function runGenerator() {
             const img = new Image();
             img.src = bank.logo; 
             img.onload = () => {
-                const maxH = 150; // Logo ngân hàng to hơn (trước là 80)
+                const maxH = 80; // Logo ngân hàng to hơn (trước là 80)
                 const scale = maxH / img.height;
                 const dW = img.width * scale * 1.25;
                 const dH = img.height * scale;

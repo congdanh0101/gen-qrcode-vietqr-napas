@@ -132,10 +132,12 @@ async function runGenerator() {
         .setAdditionalDataFieldTemplate(content)
         .build();
 
-    const qrSize = 500;
-    const padding = 40;
-    const headerHeight = 120; 
-    const footerHeight = 120;
+    console.log(`qrStream: ${qrString}`)
+
+    const qrSize = 475;
+    const padding = 25;
+    const headerHeight = 40; 
+    const footerHeight = 90;
     
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
@@ -145,21 +147,21 @@ async function runGenerator() {
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const drawBankLogo = () => {
-        return new Promise(res => {
-            const img = new Image();
-            img.src = bank.logo; 
-            img.onload = () => {
-                const maxH = 80; // Logo ngân hàng to hơn (trước là 80)
-                const scale = maxH / img.height;
-                const dW = img.width * scale;
-                const dH = img.height * scale;
-                ctx.drawImage(img, (canvas.width - dW) / 2, (headerHeight - dH) / 2, dW, dH);
-                res();
-            };
-            img.onerror = () => res();
-        });
-    };
+    // const drawBankLogo = () => {
+    //     return new Promise(res => {
+    //         const img = new Image();
+    //         img.src = bank.logo; 
+    //         img.onload = () => {
+    //             const maxH = 80; // Logo ngân hàng to hơn (trước là 80)
+    //             const scale = maxH / img.height;
+    //             const dW = img.width * scale;
+    //             const dH = img.height * scale;
+    //             ctx.drawImage(img, (canvas.width - dW) / 2, (headerHeight - dH) / 2, dW, dH);
+    //             res();
+    //         };
+    //         img.onerror = () => res();
+    //     });
+    // };
 
     const tempDiv = document.createElement('div');
     new QRCode(tempDiv, {
@@ -190,22 +192,25 @@ async function runGenerator() {
             const centerY = headerHeight + qrSize + (footerHeight / 2);
             const centerX = canvas.width / 2;
             const w1 = logoVietQR.width * (targetHeight / logoVietQR.height);
-            const w2 = logoNapas.width * (targetHeight / logoNapas.height);
+            const w2 = logoNapas.width * (targetHeight / logoNapas.height) * 1.25;
 
-            ctx.drawImage(logoVietQR, centerX - 40 - w1, centerY - (targetHeight / 2), w1, targetHeight);
-            ctx.drawImage(logoNapas, centerX + 40, centerY - (targetHeight / 2), w2, targetHeight);
+            ctx.drawImage(logoVietQR, centerX - 50 - w1, centerY - (targetHeight / 2), w1, targetHeight);
+            ctx.drawImage(logoNapas, centerX + 25, centerY - (targetHeight / 2), w2, targetHeight);
 
-            ctx.beginPath();
-            ctx.moveTo(centerX, centerY - 40);
-            ctx.lineTo(centerX, centerY + 40);
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = "#0c0c0c";
-            ctx.stroke();
+            // ctx.beginPath();
+            // ctx.moveTo(centerX, centerY - 40);
+            // ctx.lineTo(centerX, centerY + 40);
+            // ctx.lineWidth = 3;
+            // ctx.strokeStyle = "#0c0c0c";
+            // ctx.stroke();
             resolve();
         });
     };
 
-    await Promise.all([drawBankLogo(), drawLogosWithDivider()]);
+    await Promise.all([
+            // drawBankLogo(),
+         drawLogosWithDivider()
+        ]);
 
     const imageData = canvas.toDataURL("image/png"); // Hết lỗi
     document.body.innerHTML = ''; 

@@ -168,7 +168,7 @@ async function runGenerator() {
         text: qrString,
         width: qrSize,
         height: qrSize,
-        correctLevel: QRCode.CorrectLevel.H
+        correctLevel: QRCode.CorrectLevel.L
     });
 
     await new Promise(r => setTimeout(r, 150));
